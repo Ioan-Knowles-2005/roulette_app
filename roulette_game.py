@@ -167,3 +167,6 @@ if st.button("Restart Game"):
     st.session_state.history = []
     st.session_state.game_stage = 'deposit'
     st.success("Game restarted. Please deposit money.")
+
+
+#URL :"https://roulettegame.streamlit.app/"
