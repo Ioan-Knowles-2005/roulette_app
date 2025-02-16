@@ -91,11 +91,10 @@ st.title("Roulette Game")
 st.write("Welcome to the Roulette Game! Place your deposit and bet on your favorite outcome.")
 
 # Display the roulette wheel image (ensure the file is in your repo)
-try:
-    roulette_img = Image.open("roulette_wheel_image.png")
-    st.image(roulette_img, caption="Roulette Wheel", width=300)
-    cols = st.columns(3)
-    cols[1].image("roulette_wheel.png", width=300)
+roulette_img = Image.open("roulette_wheel_image.png")
+st.image(roulette_img, caption="Roulette Wheel", width=300)
+cols = st.columns(3)
+cols[1].image("roulette_wheel.png", width=300)
 
 
 # --- Deposit Stage ---
