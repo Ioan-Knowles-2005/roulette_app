@@ -94,6 +94,9 @@ st.write("Welcome to the Roulette Game! Place your deposit and bet on your favor
 try:
     roulette_img = Image.open("roulette_wheel_image.png")
     st.image(roulette_img, caption="Roulette Wheel", width=300)
+    cols = st.columns(3)
+    cols[1].image("roulette_wheel.png", width=300)
+
 except Exception as e:
     st.error(f"Could not load roulette wheel image: {e}")
 
