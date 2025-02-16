@@ -92,7 +92,7 @@ st.write("Welcome to the Roulette Game! Place your deposit and bet on your favor
 
 # Display the roulette wheel image (ensure the file is in your repo)
 try:
-    roulette_img = Image.open("roulette_wheel.png")
+    roulette_img = Image.open("roulette_wheel_image.png")
     st.image(roulette_img, caption="Roulette Wheel", width=300)
 except Exception as e:
     st.error(f"Could not load roulette wheel image: {e}")
