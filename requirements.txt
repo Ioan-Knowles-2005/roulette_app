@@ -1,0 +1,5 @@
+streamlit
+pandas
+numpy
+Pillow
+matplotlib==3.7.2
