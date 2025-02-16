@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import random
 from PIL import Image
-
+import os
 # --- Helper Functions ---
 
 def spin_wheel():
@@ -92,7 +92,8 @@ st.write("Welcome to the Roulette Game! Place your deposit and bet on your favor
 
 # Display the roulette wheel image (ensure the file is in your repo)
 try:
-    roulette_img = Image.open("roulette_wheel_image.png")
+    img_path = os.path.join(os.path.dirname(__file__), "roulette_wheel_image.png")
+    roulette_img = Image.open(img_path)
     st.image(roulette_img, caption="Roulette Wheel", width=300)
     cols = st.columns(3)
     cols[1].image("roulette_wheel.png", width=300)
