@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import random
 from PIL import Image
-from scipy.stats import norm  # (Not used in roulette but kept from your original code)
 import matplotlib.pyplot as plt
 
 # --- Helper Functions ---
