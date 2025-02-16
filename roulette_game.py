@@ -66,18 +66,6 @@ def check_bet(bet_type, bet_choice, winning_number, winning_color, bet_amount):
     else:
         return "Invalid bet type.", 0
 
-def plot_history(history):
-    """Plot the history of winning numbers and their colors."""
-    if not history:
-        return None
-    df = pd.DataFrame(history, columns=["Number", "Color"])
-    fig, ax = plt.subplots()
-    ax.scatter(df.index, df["Number"], c=df["Color"].map({"red": "red", "black": "black", "green": "green"}), s=100)
-    ax.set_ylim(-1, 37)
-    ax.set_ylabel("Winning Number")
-    ax.set_title("Roulette Winning Numbers History")
-    return fig
-
 # --- Initialize Session State ---
 
 if 'balance' not in st.session_state:
@@ -171,19 +159,6 @@ if st.session_state.game_stage == 'result':
     # Show updated balance
     st.write(f"New Balance: £{st.session_state.balance}")
     
-    # Show a visualization of winning history
-    fig = plot_history(st.session_state.history)
-    if fig:
-        st.pyplot(fig)
-    
-    # Option to play again
-    if st.button("Play Again"):
-        if st.session_state.balance > 0:
-            st.session_state.game_stage = 'bet'
-        else:
-            st.session_state.game_stage = 'deposit'
-            st.success("Please deposit money to continue playing.")
-
 # --- Option to Restart the Game ---
 if st.button("Restart Game"):
     st.session_state.balance = 0
