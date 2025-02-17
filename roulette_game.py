@@ -4,12 +4,8 @@ import numpy as np
 import random
 from PIL import Image
 import os
-# --- Helper Functions ---
 
 def spin_wheel():
-    """Simulate spinning the roulette wheel.
-    Returns the winning number and its color.
-    """
     winning_number = random.randint(0, 36)
     # Define red and black numbers (green is 0)
     red_numbers = {1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36}
@@ -23,15 +19,14 @@ def spin_wheel():
     return winning_number, winning_color
 
 def check_bet(bet_type, bet_choice, winning_number, winning_color, bet_amount):
-    """Determine if the bet wins and return the payout message and amount change."""
-    # For colour bet (type 1)
+    # For colour bet
     if bet_type == 1:
         if bet_choice.lower() == winning_color:
             payout = 2 * bet_amount
             return f"You won! {winning_number} ({winning_color}) - Payout: £{payout}", bet_amount
         else:
             return f"You lost. Winning number: {winning_number} ({winning_color}).", -bet_amount
-    # For number bet (type 2)
+    # For number bet
     elif bet_type == 2:
         try:
             if int(bet_choice) == winning_number:
@@ -41,9 +36,8 @@ def check_bet(bet_type, bet_choice, winning_number, winning_color, bet_amount):
                 return f"You lost. Winning number: {winning_number} ({winning_color}).", -bet_amount
         except ValueError:
             return "Invalid number entered.", 0
-    # For range bet (type 3)
+    # For range bet 
     elif bet_type == 3:
-        # bet_choice should be one of "1-12", "13-24", or "25-36"
         ranges = {"1-12": range(1, 13), "13-24": range(13, 25), "25-36": range(25, 37)}
         if bet_choice in ranges and winning_number in ranges[bet_choice]:
             payout = 3 * bet_amount
@@ -65,7 +59,6 @@ def check_bet(bet_type, bet_choice, winning_number, winning_color, bet_amount):
     else:
         return "Invalid bet type.", 0
 
-# --- Initialize Session State ---
 
 if 'balance' not in st.session_state:
     st.session_state.balance = 0
@@ -85,12 +78,10 @@ if 'bet_amount' not in st.session_state:
 if 'bet_choice' not in st.session_state:
     st.session_state.bet_choice = None
 
-# --- App Layout ---
 
-st.title("Roulette Game")
+st.title("Roulette")
 st.write("Welcome to the Roulette Game! Place your deposit and bet on your favorite outcome.")
 
-# Display the roulette wheel image (ensure the file is in your repo)
 try:
     img_path = os.path.join(os.path.dirname(__file__), "roulette_wheel_image.png")
     roulette_img = Image.open(img_path)
@@ -109,7 +100,7 @@ if st.session_state.game_stage == 'deposit':
         st.session_state.game_stage = 'bet'
         st.success(f"Deposit successful! Your balance is now £{st.session_state.balance}.")
 
-# --- Bet Stage ---
+
 if st.session_state.game_stage == 'bet':
     st.subheader("Place Your Bet")
     st.write(f"Current Balance: £{st.session_state.balance}")
@@ -135,18 +126,17 @@ if st.session_state.game_stage == 'bet':
             else:
                 st.error("Invalid bet amount.")
 
-# --- Result Stage ---
+
 if st.session_state.game_stage == 'result':
     st.subheader("Spinning the Wheel...")
-    # Simulate a delay for suspense (Streamlit doesn't support true delays; use st.empty)
     spinner = st.empty()
     spinner.info("Spinning...")
     
     # Spin the wheel
     winning_number, winning_color = spin_wheel()
-    spinner.empty()  # remove spinner
+    spinner.empty()  
     
-    # Evaluate the bet
+    
     result_message, delta = check_bet(
         bet_type={"Colour": 1, "Number": 2, "Range": 3, "Even/Odd": 4}[st.session_state.bet_type],
         bet_choice=st.session_state.bet_choice,
@@ -158,10 +148,9 @@ if st.session_state.game_stage == 'result':
     st.session_state.balance += delta
     st.session_state.history.append((winning_number, winning_color))
     
-    # Show updated balance
     st.write(f"New Balance: £{st.session_state.balance}")
     
-# --- Option to Restart the Game ---
+
 if st.button("Restart Game"):
     st.session_state.balance = 0
     st.session_state.history = []
