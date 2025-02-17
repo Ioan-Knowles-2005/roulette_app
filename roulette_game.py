@@ -7,7 +7,7 @@ import os
 
 def spin_wheel():
     winning_number = random.randint(0, 36)
-    # Define red and black numbers (green is 0)
+    # Define red and black numbers 
     red_numbers = {1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36}
     black_numbers = {2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35}
     if winning_number == 0:
@@ -44,7 +44,7 @@ def check_bet(bet_type, bet_choice, winning_number, winning_color, bet_amount):
             return f"You won! {winning_number} is in {bet_choice} - Payout: £{payout}", bet_amount * 2
         else:
             return f"You lost. Winning number: {winning_number} ({winning_color}).", -bet_amount
-    # For even/odd bet (type 4)
+    # For even/odd bet
     elif bet_type == 4:
         if winning_number == 0:
             return f"You lost. Winning number: {winning_number} is neither even nor odd.", -bet_amount
@@ -89,9 +89,8 @@ try:
     cols = st.columns(3)
     cols[1].image("roulette_wheel.png", width=300)
 except Exception as e:
-    st.error(f"Could not load roulette wheel image: {e}")
+    None
 
-# --- Deposit Stage ---
 if st.session_state.game_stage == 'deposit':
     st.subheader("Deposit Money")
     deposit = st.number_input("Enter deposit amount (£):", min_value=1, step=1)
@@ -132,7 +131,6 @@ if st.session_state.game_stage == 'result':
     spinner = st.empty()
     spinner.info("Spinning...")
     
-    # Spin the wheel
     winning_number, winning_color = spin_wheel()
     spinner.empty()  
     
