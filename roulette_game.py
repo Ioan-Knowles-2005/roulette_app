@@ -89,7 +89,7 @@ try:
     cols = st.columns(3)
     cols[1].image("roulette_wheel.png", width=300)
 except Exception as e:
-    None
+    print("")
 
 if st.session_state.game_stage == 'deposit':
     st.subheader("Deposit Money")
