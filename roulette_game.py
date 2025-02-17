@@ -96,7 +96,7 @@ except Exception as e:
 if st.session_state.game_stage == 'deposit':
     st.subheader("Deposit Money")
     deposit = st.number_input("Enter deposit amount (£):", min_value=1, step=1)
-    if st.button("Deposit"):
+    if st.button("Deposit", key="deposit_btn"):
         st.session_state.balance = deposit
         st.session_state.game_stage = 'bet'
         st.success(f"Deposit successful! Your balance is now £{st.session_state.balance}.")
@@ -120,7 +120,7 @@ if st.session_state.game_stage == 'bet':
         elif st.session_state.bet_type == "Even/Odd":
             st.session_state.bet_choice = st.radio("Choose Even or Odd", options=["Even", "Odd"])
         
-        if st.button("Confirm Bet"):
+        if st.button("Confirm Bet", key="confirm_bet_btn"):
             # Ensure bet amount is valid
             if st.session_state.bet_amount > 0 and st.session_state.bet_amount <= st.session_state.balance:
                 st.session_state.game_stage = 'result'
@@ -159,7 +159,7 @@ if st.session_state.game_stage == 'result':
     else:
         st.warning("No funds remaining. Please deposit money to continue playing.")
 
-if st.button("Restart Game"):
+if st.button("Restart Game", key="restart_game_btn"):
     st.session_state.balance = 0
     st.session_state.history = []
     st.session_state.game_stage = 'deposit'
