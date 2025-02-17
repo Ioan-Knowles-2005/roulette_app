@@ -150,11 +150,11 @@ if st.session_state.game_stage == 'result':
     
     st.write(f"New Balance: £{st.session_state.balance}")
     
-if st.session_state.balance > 0:
-    if st.button("Spin Again"):
-        st.session_state.game_stage = 'bet'
-else:
-    st.warning("No funds remaining. Please deposit money to continue playing.")
+    if st.session_state.balance > 0:
+        if st.button("Spin Again"):
+            st.session_state.game_stage = 'bet'
+    else:
+        st.warning("No funds remaining. Please deposit money to continue playing.")
 
 if st.button("Restart Game"):
     st.session_state.balance = 0
