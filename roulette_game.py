@@ -78,6 +78,8 @@ if 'bet_amount' not in st.session_state:
 if 'bet_choice' not in st.session_state:
     st.session_state.bet_choice = None
 
+if 'result' not in st.session_state:            
+    st.session_state.result = None 
 
 st.title("Roulette")
 st.write("Welcome to the Roulette Game! Place your deposit and bet on your favorite outcome.")
@@ -122,6 +124,7 @@ if st.session_state.game_stage == 'bet':
             # Ensure bet amount is valid
             if st.session_state.bet_amount > 0 and st.session_state.bet_amount <= st.session_state.balance:
                 st.session_state.game_stage = 'result'
+                st.session_state.result = None
             else:
                 st.error("Invalid bet amount.")
 
@@ -130,27 +133,29 @@ if st.session_state.game_stage == 'result':
     st.subheader("Spinning the Wheel...")
     spinner = st.empty()
     spinner.info("Spinning...")
+
+    if st.session_state.result is None:         
+        winning_number, winning_color = spin_wheel()
+        result_message, delta = check_bet(
+            bet_type={"Colour": 1, "Number": 2, "Range": 3, "Even/Odd": 4}[st.session_state.bet_type],
+            bet_choice=st.session_state.bet_choice,
+            winning_number=winning_number,
+            winning_color=winning_color,
+            bet_amount=st.session_state.bet_amount
+        )
+        st.session_state.result = (result_message, delta, winning_number, winning_color)
+    else:
+        result_message, delta, winning_number, winning_color = st.session_state.result  
     
-    winning_number, winning_color = spin_wheel()
     spinner.empty()  
-    
-    
-    result_message, delta = check_bet(
-        bet_type={"Colour": 1, "Number": 2, "Range": 3, "Even/Odd": 4}[st.session_state.bet_type],
-        bet_choice=st.session_state.bet_choice,
-        winning_number=winning_number,
-        winning_color=winning_color,
-        bet_amount=st.session_state.bet_amount
-    )
     st.write(result_message)
     st.session_state.balance += delta
-    st.session_state.history.append((winning_number, winning_color))
-    
     st.write(f"New Balance: £{st.session_state.balance}")
     
     if st.session_state.balance > 0:
         if st.button("Spin Again"):
             st.session_state.game_stage = 'bet'
+            st.session_state.result = None
     else:
         st.warning("No funds remaining. Please deposit money to continue playing.")
 
@@ -158,6 +163,7 @@ if st.button("Restart Game"):
     st.session_state.balance = 0
     st.session_state.history = []
     st.session_state.game_stage = 'deposit'
+    st.session_state.result = None
     st.success("Game restarted. Please deposit money.")
 
 
